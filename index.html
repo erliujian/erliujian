@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="寸阑尽揽朝昏色，一境涵收旦暮光。一方阳台，十次天光：暮色、雨云、霞光、晨雾、月夜与初阳。">
+<meta name="theme-color" content="#0a0e12">
+<title>寸阑 · 朝昏录｜一方阳台的十次天光</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0e12;
+  --ink-2:#0f151b;
+  --paper:#f0e9dc;
+  --paper-dim:#b9b2a6;
+  --paper-faint:#7d807f;
+  --gold:#d5ad74;
+  --gold-dim:rgba(213,173,116,.32);
+  --line:rgba(240,233,220,.13);
+  --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",Georgia,serif;
+  --sans:"Helvetica Neue",Helvetica,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--paper);
+  font-family:var(--serif);font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body.locked{overflow:hidden}
+::selection{background:rgba(213,173,116,.3);color:#fff}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+
+/* ---------- 氛围层 ---------- */
+.grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.055;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");}
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:70;background:rgba(255,255,255,.04)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#f3d9ae);box-shadow:0 0 12px rgba(213,173,116,.6)}
+
+/* ---------- 顶栏 ---------- */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:50;height:72px;padding:0 clamp(20px,4vw,64px);
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  transition:background .5s var(--ease),border-color .5s var(--ease);
+  border-bottom:1px solid transparent}
+.topbar.solid{background:rgba(10,14,18,.82);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+.brand{display:flex;align-items:baseline;gap:14px;white-space:nowrap}
+.brand b{font-size:22px;font-weight:500;letter-spacing:.34em}
+.brand span{font-family:var(--sans);font-size:9px;letter-spacing:.24em;color:var(--paper-faint);text-transform:uppercase}
+.dots{display:flex;align-items:center;gap:2px}
+.dot{position:relative;width:26px;height:32px;display:grid;place-items:center}
+.dot::before{content:"";width:4px;height:4px;border-radius:50%;background:rgba(240,233,220,.28);transition:.35s var(--ease)}
+.dot:hover::before{background:var(--paper);transform:scale(1.5)}
+.dot.on::before{background:var(--gold);box-shadow:0 0 0 4px rgba(213,173,116,.14);transform:scale(1.35)}
+.dot::after{content:attr(data-label);position:absolute;top:38px;left:50%;transform:translate(-50%,-6px);
+  font-size:11px;letter-spacing:.16em;white-space:nowrap;color:var(--gold);opacity:0;pointer-events:none;transition:.3s var(--ease)}
+.dot:hover::after{opacity:1;transform:translate(-50%,0)}
+.index-btn{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--paper-dim);
+  padding:10px 0 10px 18px;border-left:1px solid var(--line);white-space:nowrap;transition:color .3s}
+.index-btn:hover{color:var(--gold)}
+
+/* ---------- 首屏 ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  align-items:center;text-align:center;overflow:hidden;isolation:isolate}
+.hero-media{position:absolute;inset:-4%;z-index:-2}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 58%;
+  animation:drift 24s ease-in-out infinite alternate;filter:saturate(.92)}
+@keyframes drift{from{transform:scale(1.02)}to{transform:scale(1.09)}}
+.hero-shade{position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(8,11,15,.55) 0%,rgba(8,11,15,.18) 28%,rgba(8,11,15,.34) 62%,rgba(10,14,18,.94) 100%),
+             radial-gradient(80% 60% at 50% 45%,transparent 20%,rgba(8,11,15,.5) 100%)}
+.hero-inner{padding:100px 24px 40px;max-width:1100px}
+.eyebrow{font-family:var(--sans);font-size:11px;letter-spacing:.55em;color:var(--gold);
+  margin:0 0 clamp(32px,5vh,60px);text-transform:uppercase}
+.slogan{margin:0;font-weight:300;font-size:clamp(30px,5.1vw,68px);line-height:1.65;letter-spacing:.2em;
+  text-shadow:0 2px 30px rgba(0,0,0,.55)}
+.slogan span{display:block;opacity:0;animation:rise 1.3s var(--ease) forwards}
+.slogan span:nth-child(1){animation-delay:.2s}
+.slogan span:nth-child(2){animation-delay:.5s;transform:translateY(24px);margin-left:.9em}
+@keyframes rise{from{opacity:0;transform:translateY(26px);filter:blur(6px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.hero-sub{margin:clamp(34px,5vh,58px) auto 0;max-width:560px;font-size:14px;line-height:2.3;
+  letter-spacing:.12em;color:rgba(240,233,220,.72);
+  opacity:0;animation:rise 1.4s .9s var(--ease) forwards}
+.hero-foot{position:absolute;bottom:34px;left:clamp(20px,4vw,64px);right:clamp(20px,4vw,64px);
+  display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  font-family:var(--sans);font-size:10px;letter-spacing:.24em;color:rgba(240,233,220,.5)}
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:12px;transition:color .3s}
+.scroll-cue:hover{color:var(--gold)}
+.scroll-cue i{display:block;width:1px;height:46px;background:linear-gradient(180deg,var(--gold),transparent);
+  animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.35;transform:scaleY(.7)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ---------- 序 ---------- */
+.prologue{max-width:820px;margin:0 auto;padding:clamp(110px,16vh,190px) 24px clamp(90px,12vh,140px);text-align:center}
+.kicker{font-family:var(--sans);font-size:10px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase}
+.prologue p{font-size:clamp(17px,2vw,22px);line-height:2.4;letter-spacing:.16em;margin:34px 0 26px;color:rgba(240,233,220,.88)}
+.prologue .sign{font-size:12px;letter-spacing:.2em;color:var(--paper-faint)}
+.timeline{display:flex;align-items:center;gap:0;margin:70px auto 0;max-width:560px}
+.timeline .tl-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent)}
+.timeline .tl-node{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding:0 clamp(8px,1.6vw,20px);font-size:12px;letter-spacing:.2em;color:var(--paper-dim)}
+.timeline .tl-node::before{content:"";width:5px;height:5px;border:1px solid var(--gold);transform:rotate(45deg)}
+
+/* ---------- 章节 ---------- */
+.scenes{max-width:1360px;margin:0 auto;padding:0 clamp(20px,5vw,72px)}
+.scene{padding-bottom:clamp(110px,15vh,190px)}
+.scene-head{display:flex;align-items:center;gap:22px;margin-bottom:26px}
+.scene-head .idx{font-family:var(--sans);font-size:12px;letter-spacing:.22em;color:var(--gold)}
+.scene-head .idx em{font-style:normal;color:var(--paper-faint)}
+.scene-head .hair{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),rgba(240,233,220,.05))}
+.scene-head .mood{font-size:12px;letter-spacing:.34em;color:var(--paper-dim)}
+.frame{position:relative;display:block;width:100%;padding:0;overflow:hidden;
+  border:1px solid var(--line);background:#12181e;box-shadow:0 30px 70px -40px rgba(0,0,0,.9);text-align:left}
+.frame::after{content:"";position:absolute;inset:0;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.03),inset 0 -90px 90px -70px rgba(0,0,0,.6)}
+.frame img{width:100%;aspect-ratio:4096/1880;object-fit:cover;
+  transform:scale(1.045) translateY(var(--py,0px));transition:transform 1.1s var(--ease),filter .7s var(--ease);
+  will-change:transform}
+.frame:hover img{transform:scale(1.075) translateY(var(--py,0px));filter:brightness(1.08)}
+.frame-tag{position:absolute;left:26px;bottom:24px;z-index:2;font-size:13px;letter-spacing:.26em;
+  padding:6px 12px;color:rgba(255,255,255,.92);
+  background:linear-gradient(90deg,rgba(6,9,12,.42),rgba(6,9,12,0));
+  text-shadow:0 1px 3px rgba(0,0,0,.95),0 2px 14px rgba(0,0,0,.8)}
+.frame-zoom{position:absolute;right:22px;top:22px;z-index:2;font-family:var(--sans);font-size:10px;letter-spacing:.2em;
+  padding:9px 14px;color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.28);
+  background:rgba(10,14,18,.25);backdrop-filter:blur(6px);opacity:0;transform:translateY(-6px);transition:.4s var(--ease)}
+.frame:hover .frame-zoom{opacity:1;transform:none}
+.scene-copy{display:grid;grid-template-columns:minmax(220px,.85fr) minmax(0,1.15fr);gap:clamp(30px,6vw,90px);
+  align-items:start;margin-top:38px}
+.copy-title{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.copy-title .han{font-size:clamp(50px,6vw,84px);line-height:1;color:rgba(213,173,116,.16);font-weight:400}
+.copy-title h2{margin:6px 0 0;font-size:clamp(22px,2.6vw,32px);font-weight:400;letter-spacing:.2em;line-height:1.5}
+.copy-title .en{font-family:Georgia,serif;font-style:italic;font-size:13px;letter-spacing:.1em;color:var(--paper-faint)}
+.copy-body{padding-top:14px}
+.copy-body p{margin:0;font-size:clamp(15px,1.5vw,17px);line-height:2.3;letter-spacing:.06em;
+  color:rgba(240,233,220,.84);text-wrap:pretty}
+.meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:30px;padding-top:18px;border-top:1px solid var(--line);
+  font-family:var(--sans);font-size:10px;letter-spacing:.2em;color:var(--paper-faint);text-transform:uppercase}
+.scene:nth-of-type(even) .scene-copy{grid-template-columns:minmax(0,1.15fr) minmax(220px,.85fr);text-align:right}
+.scene:nth-of-type(even) .copy-title{order:2;align-items:flex-end}
+.scene:nth-of-type(even) .copy-body{order:1;padding-top:0}
+.scene:nth-of-type(even) .meta{justify-content:flex-end}
+.scene:nth-of-type(even) .scene-head{flex-direction:row-reverse}
+.scene:nth-of-type(even) .scene-head .hair{background:linear-gradient(270deg,var(--gold-dim),rgba(240,233,220,.05))}
+.scene:nth-of-type(even) .frame-tag{left:auto;right:26px;
+  background:linear-gradient(270deg,rgba(6,9,12,.42),rgba(6,9,12,0))}
+
+/* 间章 */
+.interlude{max-width:760px;margin:0 auto;padding:clamp(40px,6vh,80px) 24px clamp(120px,17vh,200px);text-align:center}
+.interlude .mark{font-size:34px;color:var(--gold-dim);line-height:1}
+.interlude p{margin:28px 0 0;font-size:clamp(17px,2vw,21px);line-height:2.4;letter-spacing:.18em;color:rgba(240,233,220,.8)}
+.interlude small{display:block;margin-top:26px;font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:var(--paper-faint)}
+
+/* ---------- 索引 ---------- */
+.index{max-width:1360px;margin:0 auto;padding:clamp(80px,12vh,140px) clamp(20px,5vw,72px) 0;border-top:1px solid var(--line)}
+.index-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:48px}
+.index-head h2{margin:12px 0 0;font-size:clamp(26px,3.4vw,42px);font-weight:400;letter-spacing:.24em}
+.index-head p{margin:0;font-size:13px;letter-spacing:.16em;color:var(--paper-faint);line-height:2}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.thumb{position:relative;display:block;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3}
+.thumb img{width:100%;height:100%;object-fit:cover;filter:brightness(.78);transition:.6s var(--ease)}
+.thumb:hover img{transform:scale(1.08);filter:brightness(1.05)}
+.thumb span{position:absolute;inset:auto 0 0 0;padding:26px 12px 10px;font-size:11px;letter-spacing:.18em;
+  background:linear-gradient(transparent,rgba(6,9,12,.88));text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.thumb b{position:absolute;top:9px;left:11px;font-family:var(--sans);font-size:10px;font-weight:400;
+  letter-spacing:.14em;color:var(--gold)}
+
+/* ---------- 结尾 ---------- */
+.outro{text-align:center;padding:clamp(120px,18vh,220px) 24px clamp(70px,10vh,110px)}
+.outro .quote{font-size:clamp(18px,2.3vw,26px);line-height:2.3;letter-spacing:.2em;margin:0 auto;max-width:760px;
+  color:rgba(240,233,220,.9)}
+.outro .slogan-repeat{margin:44px 0 0;font-size:13px;line-height:2.2;letter-spacing:.3em;color:var(--gold)}
+.outro .seal{display:inline-grid;place-items:center;width:52px;height:52px;margin-top:48px;
+  border:1px solid var(--gold-dim);color:var(--gold);font-size:15px;letter-spacing:0;writing-mode:vertical-rl}
+footer{border-top:1px solid var(--line);padding:32px clamp(20px,5vw,72px);display:flex;
+  align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--sans);font-size:10px;letter-spacing:.2em;color:var(--paper-faint)}
+footer a:hover{color:var(--gold)}
+
+/* ---------- 灯箱 ---------- */
+.lightbox{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;
+  background:rgba(5,8,11,.96);backdrop-filter:blur(10px);opacity:0;transition:opacity .4s var(--ease)}
+.lightbox.open{display:flex;opacity:1}
+.lb-inner{max-width:min(94vw,1700px);width:100%;padding:0 70px;transform:translateY(12px);transition:transform .5s var(--ease)}
+.lightbox.open .lb-inner{transform:none}
+.lb-inner img{width:100%;max-height:74vh;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.lb-meta{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-top:20px;font-size:13px;letter-spacing:.12em}
+.lb-meta .lb-num{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--gold)}
+.lb-meta .lb-title{font-size:16px;letter-spacing:.24em}
+.lb-meta .lb-text{color:var(--paper-dim);font-size:12px;line-height:1.9;letter-spacing:.08em;flex:1 1 340px}
+.lb-close,.lb-prev,.lb-next{position:absolute;z-index:2;display:grid;place-items:center;
+  width:48px;height:48px;border:1px solid var(--line);color:var(--paper);transition:.3s var(--ease)}
+.lb-close:hover,.lb-prev:hover,.lb-next:hover{border-color:var(--gold);color:var(--gold);background:rgba(213,173,116,.08)}
+.lb-close{top:26px;right:30px;font-size:26px;font-weight:200}
+.lb-prev,.lb-next{top:50%;margin-top:-24px;font-size:26px;font-weight:200}
+.lb-prev{left:18px}.lb-next{right:18px}
+
+/* 回到顶部 */
+.to-top{position:fixed;right:26px;bottom:26px;z-index:40;width:44px;height:44px;border:1px solid var(--line);
+  background:rgba(10,14,18,.7);backdrop-filter:blur(8px);font-size:16px;color:var(--paper-dim);
+  opacity:0;pointer-events:none;transition:.4s var(--ease)}
+.to-top.show{opacity:1;pointer-events:auto}
+.to-top:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---------- 入场动画 ---------- */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- 响应式 ---------- */
+@media(max-width:900px){
+  .dots{display:none}
+  .brand span{display:none}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .scene-copy,.scene:nth-of-type(even) .scene-copy{grid-template-columns:1fr;gap:18px;text-align:left}
+  .scene:nth-of-type(even) .copy-title{order:0;align-items:flex-start}
+  .scene:nth-of-type(even) .copy-body{order:0}
+  .scene:nth-of-type(even) .meta{justify-content:flex-start}
+  .scene:nth-of-type(even) .scene-head{flex-direction:row}
+  .scene:nth-of-type(even) .frame-tag{left:26px;right:auto}
+  .copy-title .han{font-size:46px}
+  .copy-body{padding-top:0}
+  .lb-inner{padding:0 18px}
+  .lb-prev{left:6px}.lb-next{right:6px}
+  .lb-meta .lb-text{flex-basis:100%}
+}
+@media(max-width:600px){
+  .topbar{height:60px}
+  .hero-foot{bottom:24px;font-size:9px}
+  .hero-foot .foot-left{display:none}
+  .slogan{letter-spacing:.1em;line-height:1.9}
+  .slogan span:nth-child(2){margin-left:0}
+  .eyebrow{letter-spacing:.3em}
+  .timeline .tl-node{font-size:10px;padding:0 7px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .frame-tag{left:14px;bottom:14px;font-size:11px}
+  .frame-zoom{display:none}
+  .scene-head{gap:12px}
+  .scene-head .mood{letter-spacing:.18em}
+  .lb-close{top:14px;right:14px}
+  .lb-prev,.lb-next{width:38px;height:38px}
+  footer{justify-content:center;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+  .frame img{transform:none}
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+
+<header class="topbar" id="topbar">
+  <a class="brand" href="#top"><b>寸阑</b><span>Balcony Chronicle</span></a>
+  <nav class="dots" id="dots" aria-label="十景导航"></nav>
+  <a class="index-btn" href="#index">十景索引 ↗</a>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="hero-media"><img src="assets/bg.jpg" alt="橘色天光下的城市剪影" fetchpriority="high"></div>
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="eyebrow">一寸栏杆 · 十次天光</p>
+      <h1 class="slogan"><span>寸阑尽揽朝昏色</span><span>一境涵收旦暮光</span></h1>
+      <p class="hero-sub">同一扇窗，从暮色、雨云、霞光、晨雾，到月夜与初阳。<br>把一整个夏末的朝昏，收进一方阳台。</p>
+    </div>
+    <div class="hero-foot">
+      <span class="foot-left">阳台手记 · 2026 夏末 · 十帧</span>
+      <a class="scroll-cue" href="#prologue">向下观景<i></i></a>
+    </div>
+  </section>
+
+  <section class="prologue reveal" id="prologue">
+    <div class="kicker">Prologue / 序</div>
+    <p>朝昏更替，本是无声的事。<br>直到某个傍晚，你恰好站在那里。</p>
+    <span class="sign">—— 阳台手记</span>
+    <div class="timeline" aria-hidden="true">
+      <div class="tl-line"></div>
+      <span class="tl-node">霞</span><span class="tl-node">雾</span><span class="tl-node">晨</span>
+      <span class="tl-node">暮</span><span class="tl-node">云</span><span class="tl-node">夜</span>
+      <div class="tl-line"></div>
+    </div>
+  </section>
+
+  <div class="scenes" id="scenes"></div>
+
+  <section class="interlude reveal">
+    <div class="mark">❧</div>
+    <p>天光从不预约，<br>它只在推门的一瞬，与看见它的人相遇。</p>
+    <small>半卷 · 朝与昏之间</small>
+  </section>
+
+  <section class="index reveal" id="index">
+    <div class="index-head">
+      <div><div class="kicker">Index / 拾光索引</div><h2>十次天光</h2></div>
+      <p>自晨向暮，由云入夜。<br>点选任一帧，重回那一刻的窗前。</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="outro reveal">
+    <p class="quote">寸阑之地，容得下整片天空。<br>日来月往，皆作壁上观。</p>
+    <p class="slogan-repeat">寸阑尽揽朝昏色，一境涵收旦暮光</p>
+    <div class="seal">寸阑</div>
+  </section>
+
+  <footer>
+    <span>摄于 2026 年夏末 · 一方阳台</span>
+    <span>朝昏录 · 十帧</span>
+    <a href="#top">回到卷首 ↑</a>
+  </footer>
+</main>
+
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="全屏观景">
+  <button class="lb-close" id="lbClose" aria-label="关闭">×</button>
+  <button class="lb-prev" id="lbPrev" aria-label="上一帧">‹</button>
+  <div class="lb-inner">
+    <img id="lbImg" alt="">
+    <div class="lb-meta">
+      <span class="lb-num" id="lbNum"></span>
+      <span class="lb-title" id="lbTitle"></span>
+      <span class="lb-text" id="lbText"></span>
+    </div>
+  </div>
+  <button class="lb-next" id="lbNext" aria-label="下一帧">›</button>
+</div>
+
+<button class="to-top" id="toTop" aria-label="回到顶部">↑</button>
+
+<script>
+const SCENES = [
+  {file:"IMG20260823062536.jpg", title:"霞染天际", en:"Rose & Amber", mood:"霞", moodEn:"GLOW", date:"2026.08.23  06:25",
+   text:"漫天霞光漫开，把整片天空晕成柔和粉橘，平凡的城市轮廓，被暮色揉得浪漫。",
+   alt:"整片天空被霞光晕成柔和粉橘色"},
+  {file:"IMG20260824064713.jpg", title:"淡墨晨雾", en:"Ink-Wash Morning", mood:"雾", moodEn:"MIST", date:"2026.08.24  06:47",
+   text:"晨雾漫过林梢与屋顶，楼宇消融在白雾之间，清晨的城，像一幅淡墨山水。",
+   alt:"晨雾漫过林梢与屋顶，楼宇消融在白雾间"},
+  {file:"IMG20260825070656.jpg", title:"浅金机影", en:"A Plane in the Haze", mood:"晨", moodEn:"DAWN", date:"2026.08.25  07:06",
+   text:"薄雾托着浅金晨光，远处楼群淡成朦胧虚影，一架飞机轻轻划破安静的天光。",
+   alt:"浅金晨光下的薄雾与朦胧楼群，一架飞机划过天际"},
+  {file:"IMG20260831063431.jpg", title:"鳞云灼天", en:"Burning Scales", mood:"霞", moodEn:"BLAZE", date:"2026.08.31  06:34",
+   text:"碎云铺满天际，霞光把鳞云烘成热烈橙红，推开阳台门，恰逢一场盛大云天。",
+   alt:"碎云铺满天际，霞光把鳞云烘成热烈橙红"},
+  {file:"IMG20260901071445.jpg", title:"晨光苏醒", en:"First Gold", mood:"晨", moodEn:"MORNING", date:"2026.09.01  07:14",
+   text:"暖金天光自地平线慢慢漾开，天色清透柔和，整座城市在晨光里慢慢苏醒。",
+   alt:"暖金天光自地平线漾开，城市在晨光里苏醒"},
+  {file:"bg.jpg", title:"暮色沉降", en:"The Last Light", mood:"暮", moodEn:"DUSK", date:"夏末 · 黄昏",
+   text:"暮色缓缓沉降，一层温软橘色铺在天际，远处楼宇静静伫立，在阳台目送白昼落幕。",
+   alt:"地平线泛起温软橘色，远处楼宇静静伫立"},
+  {file:"IMG20260811193920.jpg", title:"云压城来", en:"Before the Rain", mood:"雨", moodEn:"STORM", date:"2026.08.11  19:39",
+   text:"乌云翻涌堆叠，沉沉压向城市上空。风穿过楼宇，一场雨正在赶来。",
+   alt:"浓重的乌云翻涌堆叠，压向城市上空"},
+  {file:"IMG20260811195204.jpg", title:"雨帘初垂", en:"The Distant Curtain", mood:"雨", moodEn:"RAIN", date:"2026.08.11  19:52",
+   text:"浓云垂落，远方扯开朦胧雨帘，城市半隐进水雾，安静等候风雨降临。",
+   alt:"浓云垂落，远方隐约可见朦胧雨帘"},
+  {file:"IMG20260826221945.jpg", title:"月晕流云", en:"Halo", mood:"夜", moodEn:"MOON", date:"2026.08.26  22:19",
+   text:"圆月裹着淡淡的月晕，流云缓缓游走，楼下灯火点点，是阳台接住的温柔夜色。",
+   alt:"圆月裹着淡淡月晕，流云游走，楼下灯火点点"},
+  {file:"IMG20260827215656.jpg", title:"孤月万家", en:"A Single Moon", mood:"夜", moodEn:"NIGHT", date:"2026.08.27  21:56",
+   text:"孤月悬于静夜，夜色清简沉静，万家灯火散落在连片楼宇之间。",
+   alt:"孤月悬于静夜，万家灯火散落在楼宇之间"}
+];
+const CH_NUMS = ["壹","贰","叁","肆","伍","陆","柒","捌","玖","拾"];
+const pad = n => String(n).padStart(2,"0");
+const src = s => "assets/" + s.file;
+
+/* 章节 / 导航 / 索引 */
+const scenesEl = document.getElementById("scenes");
+const dotsEl = document.getElementById("dots");
+const gridEl = document.getElementById("grid");
+let html = "", dots = "", thumbs = "";
+SCENES.forEach((s,i) => {
+  html += `
+  <article class="scene reveal" id="scene-${i+1}">
+    <div class="scene-head">
+      <span class="idx">${pad(i+1)} <em>/ 10</em></span>
+      <span class="hair"></span>
+      <span class="mood">${s.mood} · ${s.moodEn}</span>
+    </div>
+    <button class="frame" data-i="${i}" aria-label="放大观看：${s.title}">
+      <img src="${src(s)}" alt="${s.alt}" loading="lazy" decoding="async">
+      <span class="frame-tag">${CH_NUMS[i]} · ${s.title}</span>
+      <span class="frame-zoom">＋ 放大观景</span>
+    </button>
+    <div class="scene-copy">
+      <div class="copy-title">
+        <span class="han">${CH_NUMS[i]}</span>
+        <h2>${s.title}</h2>
+        <span class="en">${s.en}</span>
+      </div>
+      <div class="copy-body">
+        <p>${s.text}</p>
+        <div class="meta"><span>卷 ${CH_NUMS[i]}</span><span>${s.date}</span><span>摄于阳台</span></div>
+      </div>
+    </div>
+  </article>`;
+  if(i === 5) html += `
+  <section class="interlude reveal" style="padding-top:0">
+    <div class="mark">❧</div>
+    <p>晴光收尽，云色渐起。<br>最耐看的，永远是天将变未变的那一刻。</p>
+    <small>其一 · 风雨之前</small>
+  </section>`;
+  dots += `<button class="dot" data-target="scene-${i+1}" data-label="${CH_NUMS[i]} · ${s.title}" aria-label="跳转至第${i+1}景 ${s.title}"></button>`;
+  thumbs += `<a class="thumb" href="#scene-${i+1}" aria-label="跳转至第${i+1}景 ${s.title}">
+      <img src="${src(s)}" alt="${s.alt}" loading="lazy" decoding="async"><b>${pad(i+1)}</b><span>${s.title}</span></a>`;
+});
+scenesEl.innerHTML = html;
+dotsEl.innerHTML = dots;
+gridEl.innerHTML = thumbs;
+
+/* 入场动画 */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add("in"); revealObs.unobserve(e.target); } });
+}, {threshold:.12, rootMargin:"0px 0px -8% 0px"});
+document.querySelectorAll(".reveal").forEach(el => revealObs.observe(el));
+
+/* 滚动：进度条 / 当前景 / 视差 / 顶栏 */
+const bar = document.getElementById("progressBar");
+const topbar = document.getElementById("topbar");
+const toTop = document.getElementById("toTop");
+const dotEls = [...document.querySelectorAll(".dot")];
+const sceneEls = [...document.querySelectorAll(".scene")];
+const frames = [...document.querySelectorAll(".frame")];
+let ticking = false;
+function onScroll(){
+  const y = window.scrollY, vh = window.innerHeight;
+  const max = document.documentElement.scrollHeight - vh;
+  bar.style.width = (max > 0 ? Math.min(100, y/max*100) : 0) + "%";
+  topbar.classList.toggle("solid", y > 80);
+  toTop.classList.toggle("show", y > vh*1.2);
+
+  let best = 0, bestDist = Infinity;
+  sceneEls.forEach((el,i) => {
+    const r = el.getBoundingClientRect();
+    const d = Math.abs(r.top + r.height/2 - vh/2);
+    if(d < bestDist){ bestDist = d; best = i; }
+  });
+  dotEls.forEach((d,i) => d.classList.toggle("on", i === best && y > vh*.6));
+
+  frames.forEach(f => {
+    const r = f.getBoundingClientRect();
+    if(r.bottom > -200 && r.top < vh + 200){
+      const offset = (r.top + r.height/2 - vh/2) * -0.028;
+      f.style.setProperty("--py", Math.max(-22, Math.min(22, offset)).toFixed(1) + "px");
+    }
+  });
+  ticking = false;
+}
+window.addEventListener("scroll", () => { if(!ticking){ requestAnimationFrame(onScroll); ticking = true; } }, {passive:true});
+window.addEventListener("resize", onScroll);
+onScroll();
+
+dotEls.forEach(d => d.addEventListener("click", () => {
+  document.getElementById(d.dataset.target).scrollIntoView({behavior:"smooth", block:"start"});
+}));
+toTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
+
+/* 灯箱 */
+const lb = document.getElementById("lightbox");
+const lbImg = document.getElementById("lbImg");
+let current = 0;
+function showImage(i){
+  current = (i + SCENES.length) % SCENES.length;
+  const s = SCENES[current];
+  lbImg.src = src(s);
+  lbImg.alt = s.alt;
+  document.getElementById("lbNum").textContent = pad(current+1) + " / 10";
+  document.getElementById("lbTitle").textContent = s.title;
+  document.getElementById("lbText").textContent = s.text;
+}
+function openLb(i){
+  showImage(i);
+  lb.classList.add("open");
+  lb.setAttribute("aria-hidden","false");
+  document.body.classList.add("locked");
+}
+function closeLb(){
+  lb.classList.remove("open");
+  lb.setAttribute("aria-hidden","true");
+  document.body.classList.remove("locked");
+}
+document.querySelectorAll(".frame").forEach(f => {
+  f.addEventListener("click", () => openLb(Number(f.dataset.i)));
+});
+document.getElementById("lbClose").addEventListener("click", closeLb);
+document.getElementById("lbPrev").addEventListener("click", () => showImage(current-1));
+document.getElementById("lbNext").addEventListener("click", () => showImage(current+1));
+lb.addEventListener("click", e => { if(e.target === lb || e.target.classList.contains("lb-inner")) closeLb(); });
+document.addEventListener("keydown", e => {
+  if(!lb.classList.contains("open")) return;
+  if(e.key === "Escape") closeLb();
+  if(e.key === "ArrowLeft") showImage(current-1);
+  if(e.key === "ArrowRight") showImage(current+1);
+});
+/* 触摸横滑切图 */
+let touchX = null;
+lb.addEventListener("touchstart", e => { touchX = e.changedTouches[0].clientX; }, {passive:true});
+lb.addEventListener("touchend", e => {
+  if(touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(Math.abs(dx) > 55) showImage(current + (dx < 0 ? 1 : -1));
+  touchX = null;
+}, {passive:true});
+</script>
+</body>
+</html>

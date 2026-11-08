@@ -1,0 +1,5 @@
+.workbuddy/
+.preview/
+.chk*/
+.dom*.html
+.DS_Store
