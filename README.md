@@ -25,7 +25,7 @@ README.md
 ```
 
 字体优先用 Noto Serif SC（Google Fonts），断网时自动回退到系统衬线字体。图片走浏览器懒加载。
-
+![](assets/bg.jpg)
 ## 十景顺序
 
 | # | 章名 | 天光 | 图片 |
